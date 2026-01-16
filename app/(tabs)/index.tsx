@@ -32,8 +32,8 @@ export default function DailyCardScreen() {
       const today = new Date().toISOString().split('T')[0];
       const data = await tarotApi.getDailyCard({ userId: userId || "", date: today });
       setDailyCard(data);
-    } catch (err: any) {
-      setError(err.message || "Failed to load daily card");
+    } catch {
+      setError("Failed to load daily card");
     } finally {
       setLoading(false);
     }

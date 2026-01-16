@@ -21,8 +21,8 @@ export default function BrowseCardsScreen() {
       setLoading(true);
       const data = await tarotApi.getCards();
       setCards(data.cards);
-    } catch (err: any) {
-      setError(err.message || "Failed to load cards");
+    } catch {
+      setError("Failed to load cards");
     } finally {
       setLoading(false);
     }
