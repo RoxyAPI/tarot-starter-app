@@ -1,82 +1,74 @@
-import { apiClient } from './client';
+import { roxy } from './client';
 import type {
-  TarotCard,
-  BasicCard,
-  GetCardsResponse,
-  DrawCardsRequest,
-  DrawCardsResponse,
-  DailyCardRequest,
-  DailyCardResponse,
-  ThreeCardSpreadRequest,
-  ThreeCardSpreadResponse,
-  CelticCrossRequest,
-  LoveSpreadRequest,
-  SpreadResponse,
-  CustomSpreadRequest,
-  YesNoRequest,
-  YesNoResponse,
-} from './types';
+  GetTarotCardsResponse,
+  GetTarotCardsByIdResponse,
+  PostTarotDrawData,
+  PostTarotDrawResponse,
+  PostTarotDailyData,
+  PostTarotDailyResponse,
+  PostTarotSpreadsThreeCardData,
+  PostTarotSpreadsThreeCardResponse,
+  PostTarotSpreadsCelticCrossData,
+  PostTarotSpreadsCelticCrossResponse,
+  PostTarotSpreadsLoveData,
+  PostTarotSpreadsLoveResponse,
+  PostTarotSpreadsCareerData,
+  PostTarotSpreadsCareerResponse,
+  PostTarotYesNoData,
+  PostTarotYesNoResponse,
+} from '@roxyapi/sdk';
+
+type SdkResult<T> = { data?: T; error?: unknown };
+
+/**
+ * Unwrap a Roxy SDK result, returning `data` or throwing a screen-friendly message. The SDK never throws on a non-2xx response: it returns `{ data, error }`, so every call site funnels through here to turn an error into one thrown `Error` the screens can catch.
+ */
+const unwrap = <T>(result: SdkResult<T>, message: string): T => {
+  if (result.error || !result.data) throw new Error(message);
+  return result.data;
+};
+
+/** Body shapes for the spread and reading calls. Pulled from the SDK request types so the screens cannot drift from the spec. */
+export type DrawCardsRequest = NonNullable<PostTarotDrawData['body']>;
+export type DailyCardRequest = NonNullable<PostTarotDailyData['body']>;
+export type ThreeCardSpreadRequest = NonNullable<PostTarotSpreadsThreeCardData['body']>;
+export type CelticCrossRequest = NonNullable<PostTarotSpreadsCelticCrossData['body']>;
+export type LoveSpreadRequest = NonNullable<PostTarotSpreadsLoveData['body']>;
+export type CareerSpreadRequest = NonNullable<PostTarotSpreadsCareerData['body']>;
+export type YesNoRequest = PostTarotYesNoData['body'];
+
+/** Every spread endpoint returns the same `{ spread, positions, summary }` shape, so screens render any spread with one component. */
+export type SpreadResponse =
+  | PostTarotSpreadsThreeCardResponse
+  | PostTarotSpreadsCelticCrossResponse
+  | PostTarotSpreadsLoveResponse
+  | PostTarotSpreadsCareerResponse;
 
 export const tarotApi = {
-  getCards: async (): Promise<GetCardsResponse> => {
-    const { data, error } = await apiClient.GET('/cards');
-    if (error) throw new Error('Failed to fetch cards');
-    return data;
-  },
+  getCards: async (): Promise<GetTarotCardsResponse> =>
+    unwrap(await roxy.tarot.listCards(), 'Failed to fetch cards'),
 
-  getCardById: async (id: string): Promise<TarotCard> => {
-    const { data, error } = await apiClient.GET('/cards/{id}', {
-      params: { path: { id } },
-    });
-    if (error) throw new Error('Card not found');
-    return data;
-  },
+  getCardById: async (id: string): Promise<GetTarotCardsByIdResponse> =>
+    unwrap(await roxy.tarot.getCard({ path: { id } }), 'Card not found'),
 
-  drawCards: async (params: DrawCardsRequest): Promise<DrawCardsResponse> => {
-    const { data, error } = await apiClient.POST('/draw', { body: params });
-    if (error) throw new Error('Failed to draw cards');
-    return data;
-  },
+  drawCards: async (body: DrawCardsRequest): Promise<PostTarotDrawResponse> =>
+    unwrap(await roxy.tarot.drawCards({ body }), 'Failed to draw cards'),
 
-  getDailyCard: async (params?: DailyCardRequest): Promise<DailyCardResponse> => {
-    const { data, error } = await apiClient.POST('/daily', { body: params || {} });
-    if (error) throw new Error('Failed to get daily card');
-    return data;
-  },
+  getDailyCard: async (body?: DailyCardRequest): Promise<PostTarotDailyResponse> =>
+    unwrap(await roxy.tarot.getDailyCard({ body: body ?? {} }), 'Failed to get daily card'),
 
-  getThreeCardSpread: async (params?: ThreeCardSpreadRequest): Promise<ThreeCardSpreadResponse> => {
-    const { data, error } = await apiClient.POST('/spreads/three-card', { body: params || {} });
-    if (error) throw new Error('Failed to get three-card spread');
-    return data;
-  },
+  getThreeCardSpread: async (body?: ThreeCardSpreadRequest): Promise<PostTarotSpreadsThreeCardResponse> =>
+    unwrap(await roxy.tarot.castThreeCard({ body: body ?? {} }), 'Failed to get three-card spread'),
 
-  getCelticCross: async (params?: CelticCrossRequest): Promise<SpreadResponse> => {
-    const { data, error } = await apiClient.POST('/spreads/celtic-cross', { body: params || {} });
-    if (error) throw new Error('Failed to get Celtic Cross spread');
-    return data;
-  },
+  getCelticCross: async (body?: CelticCrossRequest): Promise<PostTarotSpreadsCelticCrossResponse> =>
+    unwrap(await roxy.tarot.castCelticCross({ body: body ?? {} }), 'Failed to get Celtic Cross spread'),
 
-  getLoveSpread: async (params?: LoveSpreadRequest): Promise<SpreadResponse> => {
-    const { data, error } = await apiClient.POST('/spreads/love', { body: params || {} });
-    if (error) throw new Error('Failed to get love spread');
-    return data;
-  },
+  getLoveSpread: async (body?: LoveSpreadRequest): Promise<PostTarotSpreadsLoveResponse> =>
+    unwrap(await roxy.tarot.castLoveSpread({ body: body ?? {} }), 'Failed to get love spread'),
 
-  getCareerSpread: async (params?: { question?: string; seed?: string }): Promise<SpreadResponse> => {
-    const { data, error } = await apiClient.POST('/spreads/career', { body: params || {} });
-    if (error) throw new Error('Failed to get career spread');
-    return data;
-  },
+  getCareerSpread: async (body?: CareerSpreadRequest): Promise<PostTarotSpreadsCareerResponse> =>
+    unwrap(await roxy.tarot.castCareerSpread({ body: body ?? {} }), 'Failed to get career spread'),
 
-  getCustomSpread: async (params: CustomSpreadRequest): Promise<SpreadResponse> => {
-    const { data, error } = await apiClient.POST('/spreads/custom', { body: params });
-    if (error) throw new Error('Failed to get custom spread');
-    return data;
-  },
-
-  getYesNo: async (params: YesNoRequest): Promise<YesNoResponse> => {
-    const { data, error } = await apiClient.POST('/yes-no', { body: params });
-    if (error) throw new Error('Failed to get yes/no answer');
-    return data;
-  },
+  getYesNo: async (body: YesNoRequest): Promise<PostTarotYesNoResponse> =>
+    unwrap(await roxy.tarot.castYesNo({ body }), 'Failed to get yes/no answer'),
 };

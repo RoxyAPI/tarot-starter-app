@@ -1,6 +1,12 @@
-# RoxyAPI Tarot Starter
+# Tarot Starter App
 
-A fully functional Tarot reading app built with React Native Expo and TypeScript, powered by the RoxyAPI Tarot API. Features a complete 78-card Rider-Waite deck with daily readings, Celtic Cross spreads, yes/no divination, and more.
+[![Get API Key](https://img.shields.io/badge/Get_API_Key-roxyapi.com-black?style=for-the-badge)](https://roxyapi.com/pricing)
+[![API Docs](https://img.shields.io/badge/API_Docs-Reference-black?style=for-the-badge)](https://roxyapi.com/api-reference#tag/tarot)
+[![License: MIT](https://img.shields.io/badge/License-MIT-black?style=for-the-badge)](LICENSE)
+
+Open-source React Native (Expo) template for a tarot reading app: daily card, three-card spread, Celtic Cross, yes / no divination, and the full 78-card Rider-Waite-Smith deck. Built on the [Roxy](https://roxyapi.com) Tarot API and the official [@roxyapi/sdk](https://www.npmjs.com/package/@roxyapi/sdk). One API key, every tarot endpoint, full control over your native UI.
+
+Fork it, set one environment variable, and ship.
 
 ## Screenshots
 
@@ -22,199 +28,166 @@ A fully functional Tarot reading app built with React Native Expo and TypeScript
   <img src="screenshots/02-dark.webp" width="250" />
   <img src="screenshots/03-dark.webp" width="250" />
 </p>
-<p align="center">
-  <img src="screenshots/04-dark.webp" width="250" />
-  <img src="screenshots/05-dark.webp" width="250" />
-  <img src="screenshots/06-dark.webp" width="250" />
-</p>
 
-## Features
+## What you get
 
-Build a professional tarot card reading app with all the essential features:
+- **Daily card** seeded per device, so a user sees the same card all day, with upright or reversed meaning and full artwork.
+- **Browse all 78 cards** filtered by Major Arcana, Minor Arcana, and suit (Cups, Wands, Swords, Pentacles).
+- **Quick draw** of 1 to 10 random cards with position and reversal state.
+- **Spreads**: Three-Card (Past, Present, Future), Celtic Cross (ten positions), Love, and Career, each with position-specific interpretations and a summary.
+- **Yes / No divination** with a Strong or Qualified strength and a contextual reading.
+- **Card detail** with the complete upright and reversed interpretation for every card.
+- **Dark mode** with a violet theme that follows the device setting.
 
-- **Daily Card Reading**: Seeded daily cards with upright/reversed meanings and beautiful card imagery
-- **Browse All 78 Cards**: Filter by Major Arcana, Minor Arcana, and suits (Cups, Pentacles, Swords, Wands)
-- **Quick Draw**: Draw 1-10 random cards for instant insights with position and reversal states
-- **Tarot Spreads**: Three-Card (Past/Present/Future), Celtic Cross (10-card), Love Spread, Career Spread
-- **Yes/No Divination**: Ask questions and receive guidance with card interpretations
-- **Card Details**: Full upright and reversed meanings for every card in the deck
-- **Offline Support**: User ID persisted in AsyncStorage for consistent daily readings
-- **Dark Mode Ready**: Automatic light/dark mode support with violet theme
+## Stack
 
-## Tech Stack
+| Technology | Purpose |
+|-----------|---------|
+| [Expo SDK 54](https://expo.dev) | React Native runtime and build tooling |
+| [Expo Router](https://docs.expo.dev/router/introduction/) | File-based navigation with bottom tabs |
+| [@roxyapi/sdk](https://www.npmjs.com/package/@roxyapi/sdk) | Fully typed RoxyAPI client. One key, every domain. |
+| [NativeWind v4](https://www.nativewind.dev) | Tailwind CSS for React Native |
+| [Expo Image](https://docs.expo.dev/versions/latest/sdk/image/) | Cached card artwork |
+| [Roxy Tarot API](https://roxyapi.com/products/tarot-api) | 78-card Rider-Waite-Smith deck, spreads, and divination |
 
-- **Expo SDK 54** - React Native development platform
-- **Expo Router** - File-based navigation with bottom tabs
-- **TypeScript** - Type-safe development
-- **NativeWind v4** - Tailwind CSS for React Native styling
-- **Axios** - HTTP client with rate limit handling
-- **AsyncStorage** - Persistent user ID storage
-- **Expo Image** - Optimized image loading with caching
-- **Lucide Icons** - Beautiful icons for navigation
-- **RoxyAPI Tarot API** - Professional tarot card data and readings
-- **Auto-generated Types** - TypeScript types from OpenAPI schema
+## Quick start
 
-## Quick Start
-
-### 1. Clone and Install
+### 1. Clone and install
 
 ```bash
-git clone https://github.com/RoxyAPI/tarot-starter-app
+git clone https://github.com/RoxyAPI/tarot-starter-app.git
 cd tarot-starter-app
 npm install
 ```
 
-### 2. Get Your API Key
+### 2. Get your API key
 
-Visit [roxyapi.com/pricing](https://roxyapi.com/pricing) to sign up and get your API key. RoxyAPI provides professional tarot data with:
+Get instant access at **[roxyapi.com/pricing](https://roxyapi.com/pricing)**. One key unlocks every tarot endpoint. Add it to `.env`:
 
-- Complete 78-card Rider-Waite deck with high-quality images
-- Upright and reversed meanings for every card
-- Multiple spread layouts (Celtic Cross, Three-Card, Love, Career, Custom)
-- Daily card readings with consistent seeding
-- Yes/no divination with confidence levels
-- Rate-limited API access with X-RateLimit headers
-
-### 3. Configure Environment
-
-Create a `.env` file in the project root:
-
-```env
-EXPO_PUBLIC_ROXYAPI_BASE_URL=https://roxyapi.com/api/v2
-EXPO_PUBLIC_ROXYAPI_KEY=your_api_key_here
+```
+EXPO_PUBLIC_ROXYAPI_KEY=your-api-key-here
 ```
 
-### 4. Generate Types (Optional)
+> **Bundled key caveat.** A mobile app has no server, so any `EXPO_PUBLIC_*` value is compiled into the build and can be read off a device. For production, use a key restricted to your bundle id in the dashboard, or route calls through a thin backend proxy that holds the real key. Never ship an unrestricted key.
 
-Types are pre-generated from the production API. Regenerate if the API changes:
+### 3. Run
 
 ```bash
-npm run generate:types
+npm start          # dev server, then press i, a, or w
+npm run ios        # iOS simulator (macOS only)
+npm run android    # Android emulator
+npm run web        # web
 ```
 
-This fetches the latest OpenAPI spec from `https://roxyapi.com/api/v2/tarot/openapi.json` and generates TypeScript types automatically.
+## How it works
 
-### 5. Run the App
+The SDK is the only data layer. There is no generated schema file to keep in sync: `@roxyapi/sdk` ships its own types from the same OpenAPI spec the API serves, so a response flows straight into a screen with no glue code.
 
-```bash
-# Start development server
-npm start
+### One typed client
 
-# Run on Android
-npm run android
+```ts
+// src/api/client.ts
+import { createRoxy } from '@roxyapi/sdk';
 
-# Run on iOS (macOS only)
-npm run ios
-
-# Run on web
-npm run web
+const key = process.env.EXPO_PUBLIC_ROXYAPI_KEY ?? '';
+export const roxy = createRoxy(key);
+export const hasApiKey = (): boolean => Boolean(key);
 ```
 
-## API Documentation
+### One data layer, screens stay thin
 
-Full API documentation available at [roxyapi.com/docs](https://roxyapi.com/docs)
+Every screen imports from `src/api`. The data layer wraps each `roxy.tarot.*` call and unwraps the SDK `{ data, error }` result into either the response or one thrown error the screen can catch:
 
-### Endpoints Used
-
-- `GET /tarot/cards` - List all 78 tarot cards
-- `GET /tarot/cards/:id` - Get detailed card information
-- `POST /tarot/draw` - Draw random cards with optional seed
-- `POST /tarot/daily` - Get daily card reading (user-specific)
-- `POST /tarot/spreads/three-card` - Past/Present/Future spread
-- `POST /tarot/spreads/celtic-cross` - 10-card Celtic Cross
-- `POST /tarot/spreads/love` - 5-card relationship spread
-- `POST /tarot/spreads/career` - 7-card professional guidance
-- `POST /tarot/spreads/custom` - Create custom spread layouts
-- `POST /tarot/yes-no` - Yes/no question divination
-
-## Project Structure
-
-```
-starters/tarot/
-├── app/                          # Expo Router screens
-│   ├── _layout.tsx              # Root layout with Stack
-│   ├── (tabs)/                  # Tab navigation group
-│   │   ├── _layout.tsx         # Bottom tabs with icons
-│   │   ├── index.tsx           # Daily Card screen
-│   │   ├── browse.tsx          # Browse 78 cards with filters
-│   │   ├── draw.tsx            # Quick draw 1-10 cards
-│   │   ├── spreads.tsx         # Spread selection list
-│   │   └── yes-no.tsx          # Yes/no divination
-│   └── card/
-│       └── [id].tsx            # Card detail modal
-├── src/
-│   ├── api/
-│   │   ├── schema.ts           # Auto-generated OpenAPI types (DO NOT EDIT)
-│   │   ├── types.ts            # Re-exported types for convenience
-│   │   ├── client.ts           # Axios instance with API key
-│   │   ├── tarot.ts            # Typed API methods
-│   │   └── index.ts            # Barrel export
-│   └── hooks/
-│       └── useUserId.ts        # AsyncStorage user ID hook
-├── openapi-ts.config.ts         # OpenAPI TypeScript config
-├── global.css                   # NativeWind/Tailwind CSS
-├── tailwind.config.js           # Tailwind configuration
-├── metro.config.js              # Metro bundler with NativeWind
-├── app.config.ts                # Expo configuration
-└── package.json
+```ts
+// src/api/tarot.ts
+export const tarotApi = {
+  getDailyCard: async (body) => unwrap(await roxy.tarot.getDailyCard({ body }), 'Failed to get daily card'),
+  // ...
+};
 ```
 
-## Type Safety with OpenAPI
-
-This starter uses **auto-generated TypeScript types** from RoxyAPI's OpenAPI specification. Types are always in sync with the production API.
-
-**Regenerate types when API changes:**
-```bash
-npm run generate:types
+```tsx
+// app/(tabs)/index.tsx
+const data = await tarotApi.getDailyCard({ seed: deviceId, date: today });
+// data.card.name, data.card.imageUrl, data.dailyMessage
 ```
 
-This fetches the latest OpenAPI spec from production and updates `src/api/schema.ts`. See [src/api/README.md](src/api/README.md) for details.
+## Featured endpoints
 
-**Benefits:**
-- ✅ Types match production API exactly
-- ✅ IDE autocomplete for all fields
-- ✅ Compile-time validation
-- ✅ No manual type updates needed
+The highest-demand tarot endpoints, in the order you are most likely to ship them. Every method name and field below comes from the [OpenAPI spec](https://roxyapi.com/api/v2/tarot/openapi.json).
 
-## Customization
+```ts
+import { createRoxy } from '@roxyapi/sdk';
 
-### Change Theme Colors
+const roxy = createRoxy(process.env.EXPO_PUBLIC_ROXYAPI_KEY!);
 
-This app uses **Tailwind's built-in colors** (no custom palette needed):
+// 1. Daily card. The stickiest tarot feature. Seed per device for the same card all day.
+const { data: daily } = await roxy.tarot.getDailyCard({ body: { seed: 'device-42' } });
+// daily.card.name, daily.card.imageUrl, daily.dailyMessage
 
-```typescript
-// Use directly in className
-className="bg-violet-600 text-zinc-900 dark:text-white"
+// 2. Three-card spread. Past, present, future. The most-drawn spread on every tarot surface.
+const { data: three } = await roxy.tarot.castThreeCard({ body: { question: 'My next quarter' } });
+// three.positions[].name, three.positions[].card, three.positions[].interpretation
 
-// For React Native props (ActivityIndicator, icons), import from constants:
-import { appColors } from './src/constants/colors';
-<ActivityIndicator color={appColors.primary} />
+// 3. Celtic Cross. The professional-reader spread, ten positions.
+const { data: cross } = await roxy.tarot.castCelticCross({ body: { question: 'What should I focus on?' } });
+
+// 4. Yes / No. The impulse micro-query, highest first-call conversion.
+const { data: verdict } = await roxy.tarot.castYesNo({ body: { question: 'Should I take the offer?' } });
+// verdict.answer ("Yes" | "No" | "Maybe"), verdict.strength
+
+// 5. Card catalog. Fetch once, cache. The highest per-endpoint call count in the deck.
+const { data: deck } = await roxy.tarot.listCards();
+// deck.total (78), deck.cards[].name, deck.cards[].imageUrl
 ```
 
-**To change primary color:** Replace `violet-600` with any Tailwind color (e.g., `blue-600`, `purple-600`).  
-**Keep it lean:** Use className for styling, constants only when required by React Native props.
+This template uses 9 of the tarot endpoints. Browse the rest in the [API reference](https://roxyapi.com/api-reference#tag/tarot).
 
-### Add New Spreads
+## Project structure
 
-Create new spread screens in `app/(tabs)/spreads/` and add API calls in `src/api/tarot.ts`.
+```
+app/                          # Expo Router screens
+├── _layout.tsx               # Root Stack
+├── (tabs)/
+│   ├── _layout.tsx           # Bottom tabs
+│   ├── index.tsx             # Daily card
+│   ├── browse.tsx            # Browse 78 cards with filters
+│   ├── draw.tsx              # Quick draw 1 to 10 cards
+│   ├── spreads.tsx           # Spread selection and reading
+│   └── yes-no.tsx            # Yes / No divination
+└── card/[id].tsx             # Card detail
+src/
+├── api/
+│   ├── client.ts             # The one Roxy SDK client + hasApiKey guard
+│   ├── tarot.ts              # Wraps roxy.tarot.*, unwraps { data, error }
+│   ├── types.ts              # SDK response types under app-friendly names
+│   └── index.ts              # Barrel export
+├── components/RoxyBranding.tsx
+├── constants/colors.ts       # appColors for React Native props
+└── hooks/useUserId.ts        # Stable device id in AsyncStorage, used as the daily seed
+```
 
-### Modify Card Layouts
+## Customize
 
-Update components in screen files to change card display, layouts, or styling.
+- **Add a feature.** Pick a tarot method, add a wrapper in `src/api/tarot.ts`, call it from a screen. The SDK types regenerate from the spec, so new endpoints flow through with no manual typing.
+- **Change the theme.** This app uses Tailwind colors through NativeWind. Swap `violet-600` in the screen `className` strings for any Tailwind color, and update `appColors.primary` in `src/constants/colors.ts` for the React Native props.
+- **Add a spread.** The four spread endpoints share one response shape, so a new spread is one wrapper plus one entry in the spreads list.
 
-## SEO Keywords
+## Why Roxy
 
-tarot card reading app, React Native tarot app, Expo tarot API, tarot card app development, build tarot app, 78-card tarot deck, Celtic Cross spread app, daily tarot reading, tarot divination app, mobile tarot reader, professional tarot API, React Native card reading, Rider-Waite deck app, tarot spread layouts, yes no tarot, tarot app starter, TypeScript tarot app
+- **Breadth.** Tarot plus Western astrology, Vedic astrology, numerology, biorhythm, I Ching, crystals, dreams, and angel numbers under one key.
+- **Type-safe.** The SDK types come from one OpenAPI pipeline, so response shapes cannot drift from what the API returns.
+- **Eight languages.** Pass `query: { lang }` on the reading endpoints for interpretations in English, Hindi, Turkish, Spanish, German, Portuguese, French, or Russian.
+- **Remote MCP.** Connect AI agents to every tarot endpoint at `roxyapi.com/mcp/tarot`, no local setup.
+
+## Links
+
+- [Tarot API](https://roxyapi.com/products/tarot-api)
+- [API reference and playground](https://roxyapi.com/api-reference#tag/tarot)
+- [Get API key](https://roxyapi.com/pricing)
+- [All templates](https://roxyapi.com/starters)
+- [Connect AI agents via MCP](https://roxyapi.com/docs/mcp)
 
 ## License
 
 MIT
-
-## Support
-
-- API Documentation: [roxyapi.com/docs](https://roxyapi.com/docs)
-- Get API Key: [roxyapi.com/pricing](https://roxyapi.com/pricing)
-
----
-
-**Powered by RoxyAPI** - Professional Tarot Card API with 78-card Rider-Waite deck, multiple spread layouts, and yes/no divination
