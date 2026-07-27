@@ -1,6 +1,6 @@
 # Agents Guide
 
-This is a RoxyAPI starter app. A tarot reading app built with React Native, Expo SDK 54, and TypeScript. Ships with the full 78 card Rider Waite deck, daily readings, multi card spreads, and yes or no divination, all powered by the RoxyAPI Tarot API through the official `@roxyapi/sdk`.
+This is a RoxyAPI starter app. A tarot reading app built with React Native, Expo SDK 57, and TypeScript. Ships with the full 78 card Rider Waite deck, daily readings, multi card spreads, and yes or no divination, all powered by the RoxyAPI Tarot API through the official `@roxyapi/sdk`.
 
 ## Setup
 - Get an API key at https://roxyapi.com/pricing
