@@ -5,6 +5,7 @@ import { router } from "expo-router";
 import { appColors } from "../../src/constants/colors";
 import { hasApiKey, tarotApi } from "../../src/api";
 import type { BasicCard } from "../../src/api/types";
+import { CARD_ASPECT } from "../../src/constants/card";
 
 export default function BrowseCardsScreen() {
   const [cards, setCards] = useState<BasicCard[]>([]);
@@ -93,7 +94,7 @@ export default function BrowseCardsScreen() {
             <View className="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-2">
               <Image
                 source={{ uri: item.imageUrl }}
-                style={{ width: '100%', aspectRatio: 0.6 }}
+                style={{ width: '100%', aspectRatio: CARD_ASPECT }}
                 contentFit="contain"
               />
               <Text className="text-xs text-center mt-1 text-zinc-700 dark:text-zinc-300" numberOfLines={2}>

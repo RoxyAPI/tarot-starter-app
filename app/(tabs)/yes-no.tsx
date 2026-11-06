@@ -5,6 +5,7 @@ import { appColors } from "../../src/constants/colors";
 import { tarotApi } from "../../src/api";
 import type { YesNoResponse } from "../../src/api/types";
 import { Image } from "expo-image";
+import { CARD_ASPECT } from "../../src/constants/card";
 
 export default function YesNoScreen() {
   const [question, setQuestion] = useState("");
@@ -81,7 +82,7 @@ export default function YesNoScreen() {
               <View className="bg-zinc-100 dark:bg-zinc-800 rounded-2xl p-4">
                 <Image
                   source={{ uri: result.card.imageUrl }}
-                  style={{ width: 180, height: 300 }}
+                  style={{ width: 180, aspectRatio: CARD_ASPECT }}
                   contentFit="contain"
                 />
               </View>

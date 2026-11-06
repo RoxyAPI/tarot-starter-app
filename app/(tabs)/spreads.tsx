@@ -6,6 +6,7 @@ import { LayoutGrid, Heart, Briefcase, RotateCcw } from "lucide-react-native";
 import { appColors } from "../../src/constants/colors";
 import { tarotApi } from "../../src/api";
 import type { SpreadResponse } from "../../src/api/types";
+import { CARD_ASPECT } from "../../src/constants/card";
 
 type SpreadPosition = SpreadResponse['positions'][number];
 
@@ -70,7 +71,7 @@ export default function SpreadsScreen() {
       <View className="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-3 flex-row items-center">
         <Image
           source={{ uri: position.card.imageUrl }}
-          style={{ width: 60, height: 102 }}
+          style={{ width: 60, aspectRatio: CARD_ASPECT }}
           contentFit="contain"
         />
         <View className="flex-1 ml-3">

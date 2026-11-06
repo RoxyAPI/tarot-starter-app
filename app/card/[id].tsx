@@ -5,6 +5,7 @@ import { Image } from "expo-image";
 import { appColors } from "../../src/constants/colors";
 import { tarotApi } from "../../src/api";
 import type { TarotCard } from "../../src/api/types";
+import { CARD_ASPECT } from "../../src/constants/card";
 
 export default function CardDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -43,7 +44,7 @@ export default function CardDetailScreen() {
           <View className="bg-zinc-100 dark:bg-zinc-800 rounded-2xl p-4">
             <Image
               source={{ uri: card.imageUrl }}
-              style={{ width: 220, height: 374 }}
+              style={{ width: 220, aspectRatio: CARD_ASPECT }}
               contentFit="contain"
             />
           </View>
