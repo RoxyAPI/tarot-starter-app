@@ -6,6 +6,7 @@ import { useUserId } from "../../src/hooks/useUserId";
 import type { DailyCardResponse } from "../../src/api/types";
 import { RotateCcw } from "lucide-react-native";
 import { appColors } from "../../src/constants/colors";
+import { CARD_ASPECT } from "../../src/constants/card";
 
 export default function DailyCardScreen() {
   const { userId, loading: userIdLoading } = useUserId();
@@ -69,7 +70,7 @@ export default function DailyCardScreen() {
   return (
     <ScrollView className="flex-1 bg-white dark:bg-zinc-950">
       <View className="px-6 pt-6 pb-8">
-        <View className="items-center">
+        <View className="items-center mb-6">
           <Text className="text-sm uppercase tracking-wider text-zinc-500 dark:text-zinc-500 mb-3 font-medium">
             {new Date(dailyCard.date).toLocaleDateString('en-US', { 
               weekday: 'long', 
@@ -97,7 +98,7 @@ export default function DailyCardScreen() {
           >
             <Image
               source={{ uri: card.imageUrl }}
-              style={{ width: 220, height: 374 }}
+              style={{ width: 220, aspectRatio: CARD_ASPECT }}
               contentFit="contain"
               transition={300}
             />

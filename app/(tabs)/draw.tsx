@@ -4,6 +4,7 @@ import { Image } from "expo-image";
 import { router } from "expo-router";
 import { tarotApi } from "../../src/api";
 import type { DrawnCard } from "../../src/api/types";
+import { CARD_ASPECT } from "../../src/constants/card";
 
 export default function DrawScreen() {
   const [count, setCount] = useState(3);
@@ -73,7 +74,7 @@ export default function DrawScreen() {
               <View className="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-3">
                 <Image
                   source={{ uri: item.imageUrl }}
-                  style={{ width: 126, height: 210 }}
+                  style={{ width: 126, aspectRatio: CARD_ASPECT }}
                   contentFit="contain"
                 />
                 <Text className="text-xs mt-2 text-center font-semibold text-zinc-900 dark:text-white">

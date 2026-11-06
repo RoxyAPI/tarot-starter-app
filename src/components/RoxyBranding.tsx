@@ -13,7 +13,7 @@ export function RoxyBranding() {
         Powered by RoxyAPI
       </Text>
       <Text style={{ fontSize: 16, color: '#6b7280', marginBottom: 32, textAlign: 'center', paddingHorizontal: 16 }}>
-        Professional Tarot API with 78-card Rider-Waite deck, spread layouts, and divination endpoints
+        Professional Tarot API with 78-card deck in its 1909 Pamela Colman Smith edition, spread layouts, and divination endpoints
       </Text>
       <View style={{ width: '100%', maxWidth: 400, gap: 12 }}>
         <Pressable
